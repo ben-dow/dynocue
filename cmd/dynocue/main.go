@@ -18,6 +18,8 @@ import (
 // logs any error that might occur.
 func main() {
 
+	dynoCueService := NewDynoCueService()
+
 	// Create a new Wails application by providing the necessary options.
 	// Variables 'Name' and 'Description' are for application metadata.
 	// 'Assets' configures the asset server with the 'FS' variable pointing to the frontend files.
@@ -26,7 +28,9 @@ func main() {
 	app := application.New(application.Options{
 		Name:        "dynocue",
 		Description: "A demo of using raw HTML & CSS",
-		Services:    []application.Service{},
+		Services: []application.Service{
+			application.NewService(dynoCueService),
+		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(frontend.Assets),
 		},

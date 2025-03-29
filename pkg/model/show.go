@@ -7,14 +7,14 @@ import (
 )
 
 type Show struct {
-	ShowId   string  `json:"showId"`
-	Name     string  `json:"name"`
+	ShowId  string  `json:"showId"`
+	Name    string  `json:"name"`
 	CueList CueList `json:"cueLists"`
 }
 
 func NewShow() *Show {
 	return &Show{
-		ShowId:   uuid.NewString(),
+		ShowId:  uuid.NewString(),
 		CueList: *NewCueList(),
 	}
 }
@@ -51,4 +51,9 @@ func NewCue() *Cue {
 	return &Cue{
 		CueId: uuid.NewString(),
 	}
+}
+
+type ModelUpdate struct {
+	Type string
+	Show *Show
 }

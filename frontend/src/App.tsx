@@ -1,25 +1,20 @@
-import { AppShell, Box } from '@mantine/core';
 import { Route, Routes } from 'react-router';
-import Cues from './pages/cues';
+import Splash from './pages/splash';
+import Settings from './pages/workspace/settings';
+import Workspace from './pages/workspace/workspace';
 
 function App() {
     return (
-        <Box>
-            <AppShell
-                header={{ height: 40 }}
-                padding="md"
-            >
-                <AppShell.Header>
-                    <div>Test</div>
-                </AppShell.Header>
-
-                <AppShell.Main>
-                    <Routes>
-                        <Route index element={<Cues />} />
-                    </Routes>
-                </AppShell.Main>
-            </AppShell>
-        </Box>
+        <Routes>
+            <Route path="/" element={<Splash />} />
+            <Route path="/workspace" element={<Workspace />}>
+                <Route index element={<div>Home</div>} />
+                <Route path="cues" element={<div>Cues</div>} />
+                <Route path="sources" element={<div>Sources</div>} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="playback" element={<div>Playback</div>} />
+            </Route>
+        </Routes >
     )
 }
 

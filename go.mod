@@ -1,4 +1,4 @@
-module changeme
+module dynocue
 
 go 1.22.4
 

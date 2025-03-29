@@ -1,17 +1,34 @@
 package main
 
-import "changeme/internal"
+import (
+	"dynocue/internal/app"
 
-type DynoCueHeadless struct{}
-
-func NewDynoCueHeadless() *DynoCueHeadless {
-	return &DynoCueHeadless{}
-}
+	"github.com/wailsapp/wails/v3/pkg/application"
+)
 
 type DynoCueService struct {
-	internal.DynoCueApi
+	app.DynoCueApplication
+	app *application.App
+}
+
+func (d *DynoCueService) setApp(app *application.App) {
+	d.app = app
+}
+
+func (d *DynoCueService) evCallback(ev string, data interface{}) {
+	d.app.EmitEvent(ev, data)
+}
+
+func (d *DynoCueService) NewLocal() {
+	d.DynoCueApplication = app.NewLocalDynoCue(d.evCallback)
+}
+
+func (d *DynoCueService) OpenLocal() {
+	d.DynoCueApplication = app.NewLocalDynoCue(d.evCallback)
 }
 
 func NewDynoCueService() *DynoCueService {
-	return &DynoCueService{}
+	return &DynoCueService{
+		DynoCueApplication: app.NoopDynoCueApplication{},
+	}
 }

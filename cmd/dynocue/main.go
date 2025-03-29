@@ -1,17 +1,11 @@
 package main
 
 import (
-	"changeme/frontend"
-	_ "embed"
+	"dynocue/frontend"
 	"log"
 
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
-
-// Wails uses Go's `embed` package to embed the frontend files into the binary.
-// Any files in the frontend/dist folder will be embedded into the binary and
-// made available to the frontend.
-// See https://pkg.go.dev/embed for more information.
 
 // main function serves as the application's entry point. It initializes the application, creates a window,
 // and starts a goroutine that emits a time-based event every second. It subsequently runs the application and
@@ -27,7 +21,7 @@ func main() {
 	// 'Mac' options tailor the application when running an macOS.
 	app := application.New(application.Options{
 		Name:        "dynocue",
-		Description: "A demo of using raw HTML & CSS",
+		Description: "DynoCue",
 		Services: []application.Service{
 			application.NewService(dynoCueService),
 		},
@@ -36,14 +30,18 @@ func main() {
 		},
 	})
 
+	dynoCueService.setApp(app)
+
 	// Create a new window with the necessary options.
 	// 'Title' is the title of the window.
 	// 'Mac' options tailor the window when running on macOS.
 	// 'BackgroundColour' is the background colour of the window.
 	// 'URL' is the URL that will be loaded into the webview.
 	app.NewWebviewWindowWithOptions(application.WebviewWindowOptions{
-		Title:            "Window 1",
+		Title:            "DynoCue",
 		BackgroundColour: application.NewRGB(27, 38, 54),
+		MinWidth:         1000,
+		MinHeight:        600,
 		URL:              "/",
 	})
 

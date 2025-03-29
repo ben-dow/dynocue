@@ -1,7 +1,7 @@
 import { createTheme, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router';
+import { HashRouter } from 'react-router';
 import App from './App';
 import './style.css';
 
@@ -15,10 +15,8 @@ const theme = createTheme({
 
 root.render(
     <MantineProvider theme={theme}>
-        <BrowserRouter>
+        <HashRouter>
             <App />
-        </BrowserRouter>
+        </HashRouter>
     </MantineProvider>
-
-
 )

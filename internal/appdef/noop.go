@@ -1,4 +1,4 @@
-package app
+package appdef
 
 type NoopDynoCueApplication struct {
 	DynoCueApplication

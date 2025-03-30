@@ -1,6 +1,4 @@
 import { AppShell, Button, Stack } from "@mantine/core";
-import { Events, Window } from "@wailsio/runtime";
-import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { ShowProvider, UseShow as useShow } from "../../data/show";
 
@@ -13,12 +11,7 @@ export default function Workspace() {
 }
 
 function WorkspaceOutlet() {
-    const [time, setTime] = useState("")
-    useEffect(() => {
-        Events.On("time", (ev) => { setTime(ev.data) })
-    }, [])
     const show = useShow()
-
 
     return (
         <AppShell
@@ -27,7 +20,6 @@ function WorkspaceOutlet() {
             padding={"sm"}
         >
             <AppShell.Header className="">
-                {time}
             </AppShell.Header>
             <AppShell.Navbar>
                 <Stack gap={"5"} p={2} className="bg-zinc-100 h-full">

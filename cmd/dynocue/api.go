@@ -1,13 +1,14 @@
 package main
 
 import (
-	"dynocue/internal/app"
+	"dynocue/internal/appdef"
+	"dynocue/internal/localapp"
 
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
 type DynoCueService struct {
-	app.DynoCueApplication
+	appdef.DynoCueApplication
 	app *application.App
 }
 
@@ -20,15 +21,15 @@ func (d *DynoCueService) evCallback(ev string, data interface{}) {
 }
 
 func (d *DynoCueService) NewLocal() {
-	d.DynoCueApplication = app.NewLocalDynoCue(d.evCallback)
+	d.DynoCueApplication = localapp.NewLocalDynoCue(d.evCallback)
 }
 
 func (d *DynoCueService) OpenLocal() {
-	d.DynoCueApplication = app.NewLocalDynoCue(d.evCallback)
+	d.DynoCueApplication = localapp.NewLocalDynoCue(d.evCallback)
 }
 
 func NewDynoCueService() *DynoCueService {
 	return &DynoCueService{
-		DynoCueApplication: app.NoopDynoCueApplication{},
+		DynoCueApplication: appdef.NoopDynoCueApplication{},
 	}
 }

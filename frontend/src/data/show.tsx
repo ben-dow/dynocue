@@ -21,16 +21,16 @@ export function ShowProvider({ children }: ContextProviderProps) {
         async function getDefaultShow() {
             const show = await GetShow()
             if (show != null) {
-                dispatch({ type: "MODEL_UPDATE", show: show })
+                dispatch({ type: "SHOW", show: show })
             }
         }
-        Events.On("MODEL_UPDATE", (ev) => { console.log("here"); dispatch(ev.data) })
+        Events.On("MODEL_UPDATE", (ev) => { dispatch(ev.data[0]) })
         getDefaultShow()
     }, [])
 
     useEffect(() => {
         Window.SetTitle(`${show.name === "" || show.name === undefined ? "Untitled" : show.name} - DynoCue`)
-    }, [show])
+    }, [show.name])
 
     return (
         <ShowContext.Provider value={show}>
@@ -43,16 +43,16 @@ export function ShowProvider({ children }: ContextProviderProps) {
 
 /** Defines how a show can be updated */
 interface ShowUpdate {
-    Type: string
-    Show: Show | null
+    type: string
+    show: Show | null
 }
 
 /** Reducer Dispatch function for updating a show */
 function showReducer(show: Show, action: ShowUpdate) {
-    switch (action.Type) {
+    switch (action.type) {
         case "SHOW": {
-            if (action.Show != null) {
-                return action.Show
+            if (action.show != null) {
+                return action.show
             }
             return show
         }

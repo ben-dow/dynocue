@@ -7,15 +7,17 @@ import (
 )
 
 type Show struct {
-	ShowId  string  `json:"showId"`
-	Name    string  `json:"name"`
-	CueList CueList `json:"cueLists"`
+	ShowId     string     `json:"showId"`
+	Name       string     `json:"name"`
+	CueList    CueList    `json:"cueLists"`
+	SourceList SourceList `json:"sourceList"`
 }
 
 func NewShow() *Show {
 	return &Show{
-		ShowId:  uuid.NewString(),
-		CueList: *NewCueList(),
+		ShowId:     uuid.NewString(),
+		CueList:    NewCueList(),
+		SourceList: NewSourceList(),
 	}
 }
 
@@ -24,13 +26,13 @@ type CueType string
 type CueList struct {
 	CueListId string `json:"cueListId"`
 	Label     string `json:"label"`
-	Cues      []*Cue `json:"cues"`
+	Cues      []Cue  `json:"cues"`
 }
 
-func NewCueList() *CueList {
-	return &CueList{
+func NewCueList() CueList {
+	return CueList{
 		CueListId: uuid.NewString(),
-		Cues:      make([]*Cue, 0),
+		Cues:      make([]Cue, 0),
 	}
 }
 
@@ -53,7 +55,21 @@ func NewCue() *Cue {
 	}
 }
 
-type ModelUpdate struct {
-	Type string
-	Show *Show
+type SourceList struct {
+	AudioSources []AudioSource
+}
+
+func NewSourceList() SourceList {
+	return SourceList{
+		AudioSources: make([]AudioSource, 0),
+	}
+}
+
+type AudioSource struct {
+	Id    string
+	Label string
+}
+
+func NewAudioSource() AudioSource {
+	return AudioSource{Id: uuid.NewString()}
 }

@@ -1,53 +1,8 @@
-import { ActionIcon, Button, Flex, Tabs } from "@mantine/core";
+import { ActionIcon, Button, Flex } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import { MantineReactTable, MRT_ColumnDef, MRT_GlobalFilterTextInput, MRT_RowData } from "mantine-react-table";
-import { useMemo } from "react";
-import { AddAudioSource, DeleteAudioSource, UpdateAudioSourceLabel } from "../../../bindings/dynocue/cmd/dynocue/dynocueservice";
-import { AudioSource } from "../../../bindings/dynocue/pkg/model/models";
-import { UseShow } from "../../data/show";
 
-export default function Sources() {
-
-    return (
-        <Tabs defaultValue="audio">
-            <Tabs.List>
-                <Tabs.Tab value="audio">Audio</Tabs.Tab>
-            </Tabs.List>
-            <Tabs.Panel pt="sm" value="audio">
-                <AudioSources />
-            </Tabs.Panel>
-        </Tabs>
-    )
-}
-
-function AudioSources() {
-    const show = UseShow()
-    console.log(show.sourceList)
-
-    const columns = useMemo<MRT_ColumnDef<AudioSource>[]>(() => [
-        {
-            accessorKey: "Label",
-            header: "Label",
-            enableEditing: true,
-            mantineEditTextInputProps: ({ cell, row }) => ({
-                onBlur: (event) => {
-                    console.log(row)
-                    UpdateAudioSourceLabel(row.original.Id, event.target.value)
-                }
-            })
-        },
-    ], [])
-
-    return (
-        <div>
-            <SourcesTable<AudioSource> columns={columns} data={show.sourceList.AudioSources} addAction={AddAudioSource} addValue="Add Audio Source" deleteAction={DeleteAudioSource} />
-        </div>
-    )
-}
-
-
-
-interface SourcesTableProps<T extends MRT_RowData> {
+export interface SourcesTableProps<T extends MRT_RowData> {
     columns: MRT_ColumnDef<T>[]
     data: T[]
     addAction: () => void
@@ -55,7 +10,7 @@ interface SourcesTableProps<T extends MRT_RowData> {
     deleteAction: (id: string) => void
 }
 
-function SourcesTable<T extends MRT_RowData>(props: SourcesTableProps<T>) {
+export function SourcesTable<T extends MRT_RowData>(props: SourcesTableProps<T>) {
     return (
         <MantineReactTable
             columns={props.columns}

@@ -24,10 +24,10 @@ function WorkspaceOutlet() {
             <AppShell.Navbar>
                 <Stack gap={"5"} p={2} className="bg-zinc-100 h-full">
                     <NavButton navPath="/workspace" label="Dashboard" />
+                    <NavButton navPath="show" label="Show" />
                     <NavButton navPath="cues" label="Cues" />
                     <NavButton navPath="sources" label="Sources" />
                     <NavButton navPath="settings" label="Settings" />
-                    <NavButton navPath="playback" label="Playback" />
                 </Stack>
             </AppShell.Navbar>
             <AppShell.Main>

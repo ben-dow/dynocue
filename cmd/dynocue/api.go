@@ -20,12 +20,16 @@ func (d *DynoCueService) evCallback(ev string, data interface{}) {
 	d.app.EmitEvent(ev, data)
 }
 
-func (d *DynoCueService) NewLocal() {
-	d.DynoCueApplication = localapp.NewLocalDynoCue(d.evCallback)
+func (d *DynoCueService) NewLocal(path string) error {
+	app, err := localapp.NewLocalDynoCue(path, d.evCallback)
+	d.DynoCueApplication = app
+	return err
 }
 
-func (d *DynoCueService) OpenLocal() {
-	d.DynoCueApplication = localapp.NewLocalDynoCue(d.evCallback)
+func (d *DynoCueService) OpenLocal(path string) error {
+	app, err := localapp.OpenLocalDynoCue(path, d.evCallback)
+	d.DynoCueApplication = app
+	return err
 }
 
 func NewDynoCueService() *DynoCueService {

@@ -6,27 +6,23 @@ import (
 	"github.com/google/uuid"
 )
 
-type Show struct {
-	ShowId     string     `json:"showId"`
-	Name       string     `json:"name"`
-	CueList    CueList    `json:"cueLists"`
-	SourceList SourceList `json:"sourceList"`
+type ShowMetadata struct {
+	ShowId string `db:"showId"`
+	Name   string `db:"name"`
 }
 
-func NewShow() *Show {
-	return &Show{
-		ShowId:     uuid.NewString(),
-		CueList:    NewCueList(),
-		SourceList: NewSourceList(),
+func NewShow() *ShowMetadata {
+	return &ShowMetadata{
+		ShowId: uuid.NewString(),
 	}
 }
 
 type CueType string
 
 type CueList struct {
-	CueListId string `json:"cueListId"`
-	Label     string `json:"label"`
-	Cues      []Cue  `json:"cues"`
+	CueListId string `db:"cueListId"`
+	Label     string `db:"label"`
+	Cues      []Cue  `db:"cues"`
 }
 
 func NewCueList() CueList {
@@ -37,16 +33,16 @@ func NewCueList() CueList {
 }
 
 type Cue struct {
-	CueId    string  `json:"cueId"`
-	CueType  CueType `json:"cueType"`
-	Label    string  `json:"label"`
-	SourceId string  `json:"sourceId"`
+	CueId    string  `db:"cueId"`
+	CueType  CueType `db:"cueType"`
+	Label    string  `db:"label"`
+	SourceId string  `db:"sourceId"`
 
-	DelayEnabled bool          `json:"delayEnabled"`
-	Delay        time.Duration `json:"delay"`
+	DelayEnabled bool          `db:"delayEnabled"`
+	Delay        time.Duration `db:"delay"`
 
-	FollowEnabled bool          `json:"followEnabled"`
-	Follow        time.Duration `json:"follow"`
+	FollowEnabled bool          `db:"followEnabled"`
+	Follow        time.Duration `db:"follow"`
 }
 
 func NewCue() *Cue {

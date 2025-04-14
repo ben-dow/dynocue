@@ -1,9 +1,15 @@
 import { Button, Card, Center, Divider, Stack, Title } from "@mantine/core";
+import { Dialogs } from "@wailsio/runtime";
 import { useNavigate } from "react-router";
-import { NewLocal } from "../../bindings/dynocue/cmd/dynocue/dynocueservice";
+import { NewLocal, OpenLocal } from "../../bindings/dynocue/cmd/dynocue/dynocueservice";
+
 
 export default function Splash() {
     const navigate = useNavigate()
+
+    const goToWorkspace = () => navigate("/workspace")
+
+
     return (
         <Center className="h-screen bg-zinc-200">
             <Stack justify="center" align="center">
@@ -12,8 +18,8 @@ export default function Splash() {
                         <Title order={1}>DynoCue</Title>
                         <Divider />
                         <Stack gap={"sm"}>
-                            <Button onClick={() => { NewLocal().then(() => { navigate("/workspace") }) }} size="lg" radius="md">New</Button>
-                            <Button size="lg" radius="md">Open</Button>
+                            <Button onClick={() => { NewShow(goToWorkspace) }} size="lg" radius="md">New</Button>
+                            <Button onClick={() => { OpenShow(goToWorkspace) }} size="lg" radius="md">Open</Button>
                             <Button size="lg" radius="md">Connect</Button>
                         </Stack>
                     </Stack>
@@ -21,4 +27,43 @@ export default function Splash() {
             </Stack >
         </Center >
     )
+}
+
+function NewShow(goToWorkspace: () => void) {
+    Dialogs.SaveFile({
+        CanCreateDirectories: true,
+        CanChooseDirectories: true,
+        CanChooseFiles: false,
+        Title: "Create Dyno Cue Project",
+        Filters: [
+            {
+                DisplayName: "DynoCue Projects",
+                Pattern: "*.dq"
+            }
+        ]
+    }).then((path) => {
+        if (path === "") {
+            return
+        }
+        NewLocal(path).then(() => { goToWorkspace() })
+    })
+}
+
+function OpenShow(goToWorkspace: () => void) {
+    Dialogs.OpenFile({
+        CanChooseDirectories: true,
+        CanChooseFiles: false,
+        Title: "Open Dyno Cue Project",
+        Filters: [
+            {
+                DisplayName: "DynoCue Projects",
+                Pattern: "*.dq"
+            }
+        ]
+    }).then((path) => {
+        if (path === "") {
+            return
+        }
+        OpenLocal(path).then(() => { goToWorkspace() })
+    })
 }

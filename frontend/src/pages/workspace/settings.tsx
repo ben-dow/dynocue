@@ -6,7 +6,7 @@ export default function Settings() {
     const show = useShow()
     return (
         <Stack>
-            <TextInput label="Show Name" value={show.name || ""} onChange={(ev) => { SetShowName(ev.currentTarget.value) }} />
+            <TextInput label="Show Name" value={show.Metadata.Name || ""} onChange={(ev) => { SetShowName(ev.currentTarget.value) }} />
         </Stack>
     )
 }

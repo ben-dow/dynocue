@@ -1,57 +1,78 @@
 package localapp
 
 import (
+	"dynocue/internal/appdef"
 	"dynocue/pkg/model"
-	"slices"
+	"os"
+	"path"
+	"strings"
+
+	"github.com/google/uuid"
+	"go.etcd.io/bbolt"
 )
 
 type LocalDynoCue struct {
-	show *model.Show
+	path string
+	db   *bbolt.DB
 	evCb func(string, interface{})
+	appdef.NoopDynoCueApplication
 }
 
-func NewLocalDynoCue(eventCallback func(string, interface{})) *LocalDynoCue {
+func NewLocalDynoCue(savePath string, eventCallback func(string, interface{})) (*LocalDynoCue, error) {
+	var name string
+	if !strings.HasSuffix(savePath, ".dq") {
+		name = savePath
+		savePath = savePath + ".dq"
+	} else {
+		name, _ = strings.CutSuffix(savePath, ".dq")
+	}
+
+	err := os.Mkdir(savePath, 0755)
+	if err != nil {
+		return nil, err
+	}
+
+	db, err := bbolt.Open(path.Join(savePath, "data.db"), 0600, nil)
+	if err != nil {
+		return nil, err
+	}
+
 	ldc := &LocalDynoCue{
-		show: model.NewShow(),
+		path: savePath,
+		db:   db,
 		evCb: eventCallback,
 	}
-	return ldc
-}
 
-func OpenLocalDynoCue(eventCallback func(string, interface{})) *LocalDynoCue {
-	return &LocalDynoCue{}
-}
+	err = ldc.SetShowMetadata(&model.ShowMetadata{
+		ShowId: uuid.NewString(),
+		Name:   name,
+	})
 
-func (l *LocalDynoCue) notifyShowUpdate() {
-	l.evCb("MODEL_UPDATE", map[string]interface{}{"type": "SHOW", "show": l.show})
-}
-
-func (l *LocalDynoCue) SetShowName(name string) {
-	l.show.Name = name
-	l.notifyShowUpdate()
-}
-
-func (l *LocalDynoCue) GetShow() *model.Show {
-	return l.show
-}
-
-func (l *LocalDynoCue) AddAudioSource() {
-	l.show.SourceList.AudioSources = append(l.show.SourceList.AudioSources, model.NewAudioSource())
-	l.notifyShowUpdate()
-}
-
-func (l *LocalDynoCue) UpdateAudioSourceLabel(id, label string) {
-	for idx, as := range l.show.SourceList.AudioSources {
-		if as.Id == id {
-			as.Label = label
-			l.show.SourceList.AudioSources[idx] = as
-			l.notifyShowUpdate()
-			return
-		}
+	if err != nil {
+		return nil, err
 	}
+
+	return ldc, nil
 }
 
-func (l *LocalDynoCue) DeleteAudioSource(id string) {
-	l.show.SourceList.AudioSources = slices.DeleteFunc(l.show.SourceList.AudioSources, func(s model.AudioSource) bool { return s.Id == id })
-	l.notifyShowUpdate()
+func OpenLocalDynoCue(openPath string, eventCallback func(string, interface{})) (*LocalDynoCue, error) {
+	db, err := bbolt.Open(path.Join(openPath, "data.db"), 0600, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	ldc := &LocalDynoCue{
+		path: openPath,
+		db:   db,
+		evCb: eventCallback,
+	}
+
+	return ldc, err
+}
+
+func (l *LocalDynoCue) notify_update(t string, payload interface{}) {
+	l.evCb("MODEL_UPDATE", map[string]interface{}{"type": t, "payload": payload})
+}
+
+func (l *LocalDynoCue) SaveShow() {
 }

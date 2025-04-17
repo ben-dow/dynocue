@@ -21,10 +21,11 @@ type LocalDynoCue struct {
 func NewLocalDynoCue(savePath string, eventCallback func(string, interface{})) (*LocalDynoCue, error) {
 	var name string
 	if !strings.HasSuffix(savePath, ".dq") {
-		name = savePath
+		name = path.Base(savePath)
 		savePath = savePath + ".dq"
 	} else {
-		name, _ = strings.CutSuffix(savePath, ".dq")
+		suffix, _ := strings.CutSuffix(savePath, ".dq")
+		name = path.Base(suffix)
 	}
 
 	err := os.Mkdir(savePath, 0755)

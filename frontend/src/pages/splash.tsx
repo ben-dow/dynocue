@@ -20,7 +20,6 @@ export default function Splash() {
                         <Stack gap={"sm"}>
                             <Button onClick={() => { NewShow(goToWorkspace) }} size="lg" radius="md">New</Button>
                             <Button onClick={() => { OpenShow(goToWorkspace) }} size="lg" radius="md">Open</Button>
-                            <Button size="lg" radius="md">Connect</Button>
                         </Stack>
                     </Stack>
                 </Card>
@@ -35,12 +34,6 @@ function NewShow(goToWorkspace: () => void) {
         CanChooseDirectories: true,
         CanChooseFiles: false,
         Title: "Create Dyno Cue Project",
-        Filters: [
-            {
-                DisplayName: "DynoCue Projects",
-                Pattern: "*.dq"
-            }
-        ]
     }).then((path) => {
         if (path === "") {
             return
@@ -52,14 +45,8 @@ function NewShow(goToWorkspace: () => void) {
 function OpenShow(goToWorkspace: () => void) {
     Dialogs.OpenFile({
         CanChooseDirectories: true,
-        CanChooseFiles: false,
         Title: "Open Dyno Cue Project",
-        Filters: [
-            {
-                DisplayName: "DynoCue Projects",
-                Pattern: "*.dq"
-            }
-        ]
+
     }).then((path) => {
         if (path === "") {
             return

@@ -7,8 +7,6 @@ type DynoCueApplication interface {
 	SetShowMetadata(metadata *model.ShowMetadata) error
 	SetShowName(string) error
 
-
-	AddAudioSource(Path string)
-	UpdateAudioSourceLabel(id, label string)
-	DeleteAudioSource(id string)
+	GetSources() (*model.Sources, error)
+	AddAudioSource(Path string) error
 }

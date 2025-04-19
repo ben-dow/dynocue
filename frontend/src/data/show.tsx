@@ -1,18 +1,23 @@
 import { Events, Window } from "@wailsio/runtime";
 import { createContext, ReactNode, useContext, useEffect, useReducer } from 'react';
 import { GetShowMetadata } from "../../bindings/dynocue/cmd/dynocue/dynocueservice";
-import { ShowMetadata } from "../../bindings/dynocue/pkg/model/models";
+import { ShowMetadata, Sources } from "../../bindings/dynocue/pkg/model/models";
 
 
 export interface Show {
     Metadata: ShowMetadata
+    Sources: Sources
 }
 
 class defaultShow implements Show {
     Metadata: ShowMetadata;
+    Sources: Sources;
 
     constructor() {
         this.Metadata = new ShowMetadata()
+        this.Sources = {
+            AudioSources: []
+        }
     }
 }
 
@@ -82,7 +87,7 @@ function showReducer(show: Show, action: ShowUpdate) {
  * 
  * @returns The current show
  */
-export function UseShow(): Show {
+export function useShow(): Show {
     const show = useContext(ShowContext)
     return show
 }

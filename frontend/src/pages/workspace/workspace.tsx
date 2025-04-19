@@ -1,6 +1,6 @@
 import { AppShell, Button, Stack } from "@mantine/core";
 import { Outlet, useLocation, useNavigate } from "react-router";
-import { ShowProvider, UseShow as useShow } from "../../data/show";
+import { ShowProvider, useShow } from "../../data/show";
 
 export default function Workspace() {
     return (

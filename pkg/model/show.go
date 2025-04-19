@@ -51,19 +51,13 @@ func NewCue() *Cue {
 	}
 }
 
-type SourceList struct {
+type Sources struct {
 	AudioSources []AudioSource
 }
 
-func NewSourceList() SourceList {
-	return SourceList{
-		AudioSources: make([]AudioSource, 0),
-	}
-}
-
 type AudioSource struct {
-	Id    string
-	Label string
+	Id    string `db:"id"`
+	Label string `db:"label"`
 }
 
 func NewAudioSource() AudioSource {

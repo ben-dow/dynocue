@@ -56,8 +56,10 @@ type Sources struct {
 }
 
 type AudioSource struct {
-	Id    string `db:"id"`
-	Label string `db:"label"`
+	Id          string `db:"id"`
+	Label       string `db:"label"`
+	StoragePath string `db:"storagePath"`
+	Duration    time.Duration `db:"duration"`
 }
 
 func NewAudioSource() AudioSource {

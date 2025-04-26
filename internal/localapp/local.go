@@ -2,7 +2,6 @@ package localapp
 
 import (
 	"dynocue/internal/appdef"
-	"dynocue/internal/db"
 	"dynocue/pkg/model"
 	"os"
 	"path"
@@ -10,7 +9,6 @@ import (
 
 	"github.com/google/uuid"
 	"go.etcd.io/bbolt"
-	"golang.org/x/sync/singleflight"
 )
 
 type LocalDynoCue struct {
@@ -71,19 +69,4 @@ func OpenLocalDynoCue(openPath string, eventCallback func(string, interface{})) 
 	}
 
 	return ldc, err
-}
-
-var sf = &singleflight.Group{}
-
-func notify_update[T any](cb func(string, interface{}), database *bbolt.DB, t string, bucket string) error {
-	_, err, _ := sf.Do(t+string(bucket), func() (interface{}, error) {
-		payload := new(T)
-		err := db.UnmarshalFromBucket(database, bucket, payload)
-		if err != nil {
-			return nil, err
-		}
-		cb("MODEL_UPDATE", map[string]interface{}{"type": t, "payload": payload})
-		return nil, nil
-	})
-	return err
 }

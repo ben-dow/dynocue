@@ -8,5 +8,5 @@ type DynoCueApplication interface {
 	SetShowName(string) error
 
 	GetSources() (*model.Sources, error)
-	AddAudioSource(Path string) error
+	AddAudioSource(string, string, string) error
 }

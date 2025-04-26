@@ -1,6 +1,6 @@
 import { Events, Window } from "@wailsio/runtime";
 import { createContext, ReactNode, useContext, useEffect, useReducer } from 'react';
-import { GetShowMetadata } from "../../bindings/dynocue/cmd/dynocue/dynocueservice";
+import { GetShowMetadata, GetSources } from "../../bindings/dynocue/cmd/dynocue/dynocueservice";
 import { ShowMetadata, Sources } from "../../bindings/dynocue/pkg/model/models";
 
 
@@ -40,6 +40,9 @@ export function ShowProvider({ children }: ContextProviderProps) {
         async function getDefaultShow() {
             const md = await GetShowMetadata()
             dispatch({ type: "METADATA", payload: md })
+
+            const sources = await GetSources()
+            dispatch({ type: "SOURCES", payload: sources })
         }
         Events.On("MODEL_UPDATE", (ev) => { dispatch(ev.data[0]) })
         getDefaultShow()
@@ -68,10 +71,15 @@ interface ShowUpdate {
 function showReducer(show: Show, action: ShowUpdate) {
     switch (action.type) {
         case "METADATA": {
-            show.Metadata = action.payload
             return {
                 ...show,
                 Metadata: action.payload,
+            }
+        }
+        case "SOURCES": {
+            return {
+                ...show,
+                Sources: action.payload
             }
         }
         default: {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"dynocue/frontend"
+	"dynocue/pkg/playback"
 	"log"
 
 	"github.com/wailsapp/wails/v3/pkg/application"
@@ -11,6 +12,11 @@ import (
 // and starts a goroutine that emits a time-based event every second. It subsequently runs the application and
 // logs any error that might occur.
 func main() {
+	err := playback.InitializePlayback()
+	if err != nil {
+		log.Fatal("could not initialize playback")
+	}
+
 	dynoCueService := NewDynoCueService()
 
 	// Create a new Wails application by providing the necessary options.
@@ -45,7 +51,7 @@ func main() {
 	})
 
 	// Run the application. This blocks until the application has been exited.
-	err := app.Run()
+	err = app.Run()
 
 	// If an error occurred while running the application, log it and exit.
 	if err != nil {

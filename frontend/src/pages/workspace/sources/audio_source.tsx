@@ -1,9 +1,10 @@
-import { Box, Button, Flex, LoadingOverlay, Modal, NativeSelect, TextInput } from "@mantine/core";
+import { ActionIcon, Box, Button, Flex, LoadingOverlay, Modal, NativeSelect, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { IconPlayerPlay, IconTrash } from "@tabler/icons-react";
 import { Dialogs } from "@wailsio/runtime";
 import { MRT_ColumnDef } from "mantine-react-table";
 import { useMemo, useState } from "react";
-import { AddAudioSource } from "../../../../bindings/dynocue/cmd/dynocue/dynocueservice";
+import { AddAudioSource, PlayAudioSource } from "../../../../bindings/dynocue/cmd/dynocue/dynocueservice";
 import { AudioSource } from "../../../../bindings/dynocue/pkg/model/models";
 import { useShow } from "../../../data/show";
 import { SourcesTable } from "./source_table";
@@ -13,6 +14,20 @@ export function AudioSources() {
     const [opened, { open, close }] = useDisclosure(false);
 
     const columns = useMemo<MRT_ColumnDef<AudioSource>[]>(() => [
+        {
+            header: "",
+            id: "play",
+            Cell: ({ cell }) => {
+                return (
+                    <Flex justify="center" gap={2}>
+                        <ActionIcon color="green" onClick={() => { PlayAudioSource(cell.row.original.Id) }}>
+                            <IconPlayerPlay />
+                        </ActionIcon>
+                    </Flex>
+                )
+            },
+            maxSize: 10
+        },
         {
             accessorKey: "Label",
             header: "Label",
@@ -47,13 +62,27 @@ export function AudioSources() {
                 </Box>)
             }
         },
+        {
+            header: "",
+            id: "delete",
+            Cell: ({ cell }) => {
+                return (
+                    <Flex justify="center" gap={2}>
+                        <ActionIcon color="red" onClick={() => { }}>
+                            <IconTrash />
+                        </ActionIcon>
+                    </Flex>
+                )
+            },
+            maxSize: 20
+        },
     ], [])
 
     console.log(show.Sources.AudioSources)
     return (
         <div>
             <AudioSourceAdd opened={opened} closer={close} />
-            <SourcesTable<AudioSource> columns={columns} data={show.Sources.AudioSources} addAction={open} addValue="Add Audio Source" deleteAction={() => { }} />
+            <SourcesTable<AudioSource> columns={columns} data={show.Sources.AudioSources} addAction={open} addValue="Add Audio Source" playAction={(id) => { PlayAudioSource(id) }} deleteAction={() => { }} />
         </div>
     )
 }

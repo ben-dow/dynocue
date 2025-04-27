@@ -3,6 +3,7 @@ package db
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"reflect"
 
 	"go.etcd.io/bbolt"
@@ -31,6 +32,9 @@ func UnmarshalKeyValueFromBucket[T any](db *bbolt.DB, bucket string, key string,
 			return errors.New("bucket does not exist")
 		}
 		v := b.Get([]byte(key))
+		if len(v) == 0 {
+			return fmt.Errorf("not found")
+		}
 		return json.Unmarshal(v, value)
 	})
 }

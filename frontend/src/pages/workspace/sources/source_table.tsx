@@ -1,5 +1,4 @@
-import { ActionIcon, Button, Flex } from "@mantine/core";
-import { IconTrash } from "@tabler/icons-react";
+import { Button, Flex } from "@mantine/core";
 import { MantineReactTable, MRT_ColumnDef, MRT_GlobalFilterTextInput, MRT_RowData } from "mantine-react-table";
 
 export interface SourcesTableProps<T extends MRT_RowData> {
@@ -8,6 +7,7 @@ export interface SourcesTableProps<T extends MRT_RowData> {
     addAction: () => void
     addValue: string
     deleteAction: (id: string) => void
+    playAction: (id: string) => void
 }
 
 export function SourcesTable<T extends MRT_RowData>(props: SourcesTableProps<T>) {
@@ -17,7 +17,7 @@ export function SourcesTable<T extends MRT_RowData>(props: SourcesTableProps<T>)
             data={props.data}
             enableColumnActions={false}
             enableColumnFilters={false}
-            enableRowActions={true}
+            enableRowActions={false}
             enablePagination={false}
             enableSorting={false}
             enableEditing={true}
@@ -43,17 +43,6 @@ export function SourcesTable<T extends MRT_RowData>(props: SourcesTableProps<T>)
                 placeholder: 'Search',
             }
             }
-            positionActionsColumn="last"
-            renderRowActions={({ cell,
-                renderedRowIndex,
-                row,
-                table }) => (
-                <Flex justify="center">
-                    <ActionIcon color="red" onClick={() => { props.deleteAction(row.original.Id) }}>
-                        <IconTrash />
-                    </ActionIcon>
-                </Flex>
-            )}
             displayColumnDefOptions={
                 {
                     'mrt-row-actions': {

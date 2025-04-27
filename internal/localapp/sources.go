@@ -93,3 +93,18 @@ func (l *LocalDynoCue) AddAudioSource(inputPath, storageCodec, label string) err
 
 	return l.notifySources()
 }
+
+func (l *LocalDynoCue) PlayAudioSource(id string) error {
+	as := new(model.AudioSource)
+	err := db.UnmarshalKeyValueFromBucket(l.db, AudioSourcesBucket, id, as)
+	if err != nil {
+		return err
+	}
+
+	err = l.playback.PlayAudio(id, as.StoragePath)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -3,6 +3,7 @@ package localapp
 import (
 	"dynocue/internal/appdef"
 	"dynocue/pkg/model"
+	"dynocue/pkg/playback"
 	"os"
 	"path"
 	"strings"
@@ -14,6 +15,9 @@ import (
 type LocalDynoCue struct {
 	path string
 	db   *bbolt.DB
+
+	playback *playback.MediaPlayer
+
 	evCb func(string, interface{})
 	appdef.NoopDynoCueApplication
 }
@@ -39,9 +43,10 @@ func NewLocalDynoCue(savePath string, eventCallback func(string, interface{})) (
 	}
 
 	ldc := &LocalDynoCue{
-		path: savePath,
-		db:   db,
-		evCb: eventCallback,
+		path:     savePath,
+		db:       db,
+		playback: playback.NewMediaPlayer(),
+		evCb:     eventCallback,
 	}
 
 	err = ldc.SetShowMetadata(&model.ShowMetadata{
@@ -63,9 +68,10 @@ func OpenLocalDynoCue(openPath string, eventCallback func(string, interface{})) 
 	}
 
 	ldc := &LocalDynoCue{
-		path: openPath,
-		db:   db,
-		evCb: eventCallback,
+		path:     openPath,
+		db:       db,
+		playback: playback.NewMediaPlayer(),
+		evCb:     eventCallback,
 	}
 
 	return ldc, err

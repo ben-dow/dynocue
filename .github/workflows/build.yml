@@ -7,15 +7,8 @@ on:
       - "releases/**"
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        build:
-          - name: "linux/amd64"
-            os: "ubuntu-latest"
-
-    name: ${{ matrix.build.name }}
-    runs-on: ${{ matrix.build.os }}
+    name: linux/amd64
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -26,5 +19,7 @@ jobs:
           go-version: '1.24.4'
           check-latest: true
           cache-dependency-path: go.sum
+      - name: install dependencies:
+        run: sudo apt-get -yq install libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu
       - name: install wails3
         run: go install github.com/wailsapp/wails/v3/cmd/wails3@latest

@@ -34,7 +34,7 @@ jobs:
       - name: install wails3
         run: go install github.com/wailsapp/wails/v3/cmd/wails3@latest
       - name: build
-        run: wails3 build
+        run: wails3 task linux:package
   windows:
     strategy:
       fail-fast: false
@@ -61,4 +61,4 @@ jobs:
         run: go install github.com/wailsapp/wails/v3/cmd/wails3@latest
       - name: build
         shell: cmd
-        run: wails3 build
+        run: wails3 task windows:package

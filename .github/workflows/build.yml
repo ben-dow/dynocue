@@ -20,6 +20,8 @@ jobs:
           check-latest: true
           cache-dependency-path: go.sum
       - name: install dependencies
-        run: sudo apt-get -yq install libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu
+        run: |
+          sudo apt-get -yq update
+          sudo apt-get -yq install libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu
       - name: install wails3
         run: go install github.com/wailsapp/wails/v3/cmd/wails3@latest

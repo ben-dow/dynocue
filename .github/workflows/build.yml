@@ -26,3 +26,5 @@ jobs:
           go-version: '1.24.4'
           check-latest: true
           cache-dependency-path: go.sum
+      - name: install wails3
+        run: go install github.com/wailsapp/wails/v3/cmd/wails3@latest

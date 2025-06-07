@@ -8,7 +8,6 @@ on:
 jobs:
   linux:
     strategy:
-    # Failure in one platform build won't impact the others
       fail-fast: false
       matrix:
         build:
@@ -38,7 +37,6 @@ jobs:
         run: wails3 build
   windows:
     strategy:
-    # Failure in one platform build won't impact the others
       fail-fast: false
       matrix:
         build:

@@ -13,10 +13,9 @@ import (
 )
 
 type LocalDynoCue struct {
-	path string
-	db   *bbolt.DB
-
-	playback *playback.MediaPlayer
+	path    string
+	db      *bbolt.DB
+	players *playback.PlayerManager
 
 	evCb func(string, interface{})
 	appdef.NoopDynoCueApplication
@@ -43,10 +42,10 @@ func NewLocalDynoCue(savePath string, eventCallback func(string, interface{})) (
 	}
 
 	ldc := &LocalDynoCue{
-		path:     savePath,
-		db:       db,
-		playback: playback.NewMediaPlayer(),
-		evCb:     eventCallback,
+		path:    savePath,
+		db:      db,
+		players: playback.NewPlayerManager(),
+		evCb:    eventCallback,
 	}
 
 	err = ldc.SetShowMetadata(&model.ShowMetadata{
@@ -68,10 +67,10 @@ func OpenLocalDynoCue(openPath string, eventCallback func(string, interface{})) 
 	}
 
 	ldc := &LocalDynoCue{
-		path:     openPath,
-		db:       db,
-		playback: playback.NewMediaPlayer(),
-		evCb:     eventCallback,
+		path:    openPath,
+		db:      db,
+		players: playback.NewPlayerManager(),
+		evCb:    eventCallback,
 	}
 
 	return ldc, err

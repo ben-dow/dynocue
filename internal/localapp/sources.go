@@ -2,18 +2,14 @@ package localapp
 
 import (
 	"dynocue/internal/db"
+	"dynocue/pkg/ffmpeg"
 	"dynocue/pkg/model"
-	"dynocue/pkg/util"
+	"dynocue/pkg/playback"
 	"fmt"
 	"os"
 	"path"
-	"slices"
-	"strconv"
-	"time"
 
 	"github.com/google/uuid"
-	"github.com/tidwall/gjson"
-	ffmpeg "github.com/u2takey/ffmpeg-go"
 )
 
 const (
@@ -46,24 +42,13 @@ func (l *LocalDynoCue) notifySources() error {
 }
 
 func (l *LocalDynoCue) AddAudioSource(inputPath, storageCodec, label string) error {
-	val, err := ffmpeg.Probe(inputPath)
+	probeResult, err := ffmpeg.Probe(inputPath)
 	if err != nil {
 		return fmt.Errorf("could not find audio source, %w", err)
 	}
 
-	codec := gjson.Get(val, "format.format_name")
-	codecStr := codec.String()
-
-	durationRaw := gjson.Get(val, "format.duration")
-	durationStr := durationRaw.String()
-	durationFloat, err := strconv.ParseFloat(durationStr, 64)
-	if err != nil {
-		durationFloat = 0
-	}
-	duration := time.Duration(durationFloat * float64(time.Second))
-
-	if !slices.Contains(util.AudioCodecs(), codecStr) {
-		return fmt.Errorf("codec %s is not a supported audio codec", codecStr)
+	if !probeResult.HasAudioStream() {
+		return fmt.Errorf("%s does not have a supported audio stream", inputPath)
 	}
 
 	sourceId := uuid.NewString()
@@ -73,7 +58,7 @@ func (l *LocalDynoCue) AddAudioSource(inputPath, storageCodec, label string) err
 		Id:          sourceId,
 		Label:       label,
 		StoragePath: storagePath,
-		Duration:    duration,
+		Duration:    probeResult.Duration(),
 	}
 
 	err = db.MarshalKeyValueToBucket(l.db, AudioSourcesBucket, sourceId, as)
@@ -86,7 +71,7 @@ func (l *LocalDynoCue) AddAudioSource(inputPath, storageCodec, label string) err
 		return fmt.Errorf("could not create directory structure for audio source, %w", err)
 	}
 
-	err = ffmpeg.Input(inputPath).Output(storagePath, ffmpeg.KwArgs{"c:a": storageCodec}).OverWriteOutput().Run()
+	err = ffmpeg.TranscodeAudio(inputPath, storagePath, storageCodec)
 	if err != nil {
 		return fmt.Errorf("could not import audio source, %w", err)
 	}
@@ -101,7 +86,10 @@ func (l *LocalDynoCue) PlayAudioSource(id string) error {
 		return err
 	}
 
-	err = l.playback.PlayAudio(id, as.StoragePath)
+	err = l.players.StartAudioPlayer(id, &playback.PlayerCfg{
+		File: as.StoragePath,
+	})
+
 	if err != nil {
 		return err
 	}

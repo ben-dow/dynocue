@@ -7,8 +7,14 @@ on:
       - "releases/**"
 jobs:
   build:
-    name: Build
-    runs-on: ubuntu-latest
+  strategy:
+    fail-fast: false
+    matrix:
+      build:
+        - name: "linux/amd64"
+          os: "ubuntu-latest"
+
+    runs-on: ${{ matrix.build.os }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2

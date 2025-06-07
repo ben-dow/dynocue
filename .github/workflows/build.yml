@@ -57,6 +57,8 @@ jobs:
           check-latest: true
           cache-dependency-path: go.sum
       - name: install wails3
+        shell: bash
         run: go install github.com/wailsapp/wails/v3/cmd/wails3@latest
       - name: build
+        shell: bash
         run: wails3 build

@@ -26,14 +26,13 @@ jobs:
         with:
           go-version: 'stable'
           cache-dependency-path: go.sum
-      - name: install dependencies
+      - name: install 
         run: |
           sudo apt-get -yq update
           sudo apt-get -yq install libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu
-      - name: download dependencies
-        run: go get ./...
+          go get ./...
       - name: build
-        run: wails3 task linux:package
+        run: go tool wails3 task linux:package
   windows:
     strategy:
       fail-fast: false
@@ -57,4 +56,4 @@ jobs:
       - name: download dependencies
         run: go get ./...
       - name: build
-        run: wails3 task windows:package
+        run: go tool wails3 task windows:package

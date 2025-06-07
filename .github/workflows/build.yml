@@ -7,12 +7,12 @@ on:
       - "releases/**"
 jobs:
   build:
-  strategy:
-    fail-fast: false
-    matrix:
-      build:
-        - name: "linux/amd64"
-          os: "ubuntu-latest"
+    strategy:
+      fail-fast: false
+      matrix:
+        build:
+          - name: "linux/amd64"
+            os: "ubuntu-latest"
 
     runs-on: ${{ matrix.build.os }}
     steps:
@@ -20,8 +20,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v4
-        with:
-          node-version: 22
       - uses: actions/setup-go@v5
         with:
           go-version: '1.24.4'

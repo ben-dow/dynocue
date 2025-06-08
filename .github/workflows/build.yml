@@ -35,6 +35,11 @@ jobs:
           go get ./...
       - name: build
         run: go tool wails3 task linux:package
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bin
+          path: bin/**
   windows:
     strategy:
       fail-fast: false
@@ -63,3 +68,8 @@ jobs:
         run: go get ./...
       - name: build
         run: go tool wails3 task windows:package
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bin
+          path: bin/**

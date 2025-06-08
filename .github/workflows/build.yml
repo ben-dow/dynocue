@@ -16,6 +16,9 @@ jobs:
           - name: 'linux/amd64'
             package: "linux-amd64"
             os: 'ubuntu-24.04'
+          - name: 'linux/arm64'
+            package: "linux-arm64"
+            os: 'ubuntu-24.04-arm'
     runs-on: ${{ matrix.build.os }}
     name: ${{ matrix.build.name }}
     steps:
@@ -63,6 +66,7 @@ jobs:
         with:
           name: ${{ matrix.build.package }}
           path: bin/**
+          retention-days: 7
   windows:
     strategy:
       fail-fast: false
@@ -71,6 +75,9 @@ jobs:
           - name: 'windows/amd64'
             package: "windows-amd64"
             os: 'windows-latest'
+          - name: 'windows/arm64'
+            package: "windows-arm64"
+            os: 'windows-11-arm64'
     runs-on: ${{ matrix.build.os }}
     name: ${{ matrix.build.name }}
     steps:
@@ -112,6 +119,7 @@ jobs:
         with:
           name: ${{ matrix.build.package }}
           path: bin/**
+          retention-days: 7
   darwin:
     strategy:
       fail-fast: false
@@ -162,3 +170,4 @@ jobs:
         with:
           name: ${{ matrix.build.package }}
           path: bin/**
+          retention-days: 7

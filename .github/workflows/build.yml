@@ -48,7 +48,7 @@ jobs:
       - name: ffmpeg
         run: |
             cd /bin
-            wget https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz
+            curl --output ffmpeg-git-amd64-static.tar.xz https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz
             tar xvf ffmpeg-git-amd64-static.tar.xz --no-anchored 'ffmpeg' --strip 1
             source ~/.profile
       - name: generate

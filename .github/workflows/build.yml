@@ -53,7 +53,6 @@ jobs:
             source ~/.profile
       - name: generate
         run: |
-            ffmpeg -codecs -hide_banner -loglevel error
             go tool wails3 task common:build:frontend
       - name: unit test
         run: go test ./...

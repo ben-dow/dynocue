@@ -43,7 +43,7 @@ jobs:
       - uses: awalsh128/cache-apt-pkgs-action@latest
         name: apt install
         with:
-          packages: libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu ffmpeg
+          packages: libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu ffmpeg libblas-dev
           version: 0.1
       - name: generate
         run: |
@@ -93,7 +93,6 @@ jobs:
       - name: ffmpeg
         run: |
           choco install ffmpeg
-          ffmpeg
       - name: generate
         run: |
             go tool wails3 task common:build:frontend

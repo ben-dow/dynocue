@@ -47,7 +47,6 @@ jobs:
           version: 0.1
       - name: generate
         run: |
-            ffmpeg
             go tool wails3 task common:build:frontend
       - name: unit test
         run: go test ./...

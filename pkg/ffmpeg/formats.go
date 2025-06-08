@@ -122,8 +122,10 @@ func Formats() []string {
 		}
 
 		fields := strings.Fields(txt)
-		format := fields[1]
-		out = append(formats, format)
+		if len(fields) > 0 {
+			format := fields[1]
+			out = append(formats, format)
+		}
 	}
 
 	formats = out

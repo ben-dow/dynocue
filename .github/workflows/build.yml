@@ -47,6 +47,9 @@ jobs:
         with:
           packages: libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu ffmpeg
           version: 1.0
+      - name: generate
+        run: |
+            go tool wails3 task build:frontend
       - name: unit test
         run: go test ./...
       - name: build
@@ -93,6 +96,9 @@ jobs:
           cache-dependency-path: go.sum
       - name: ffmpeg
         run: choco install ffmpeg
+      - name: generate
+        run: |
+            go tool wails3 task build:frontend
       - name: unit test
         run: go test ./...
       - name: install nsis

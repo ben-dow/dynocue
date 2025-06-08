@@ -120,6 +120,9 @@ jobs:
           - name: 'darwin/amd64'
             package: "darwin-amd64"
             os: 'macos-13'
+          - name: 'darwin/arm64'
+            package: "darwin-arm64"
+            os: 'macos-15'
     runs-on: ${{ matrix.build.os }}
     name: ${{ matrix.build.name }}
     steps:

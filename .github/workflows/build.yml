@@ -43,6 +43,8 @@ jobs:
         with:
           go-version: 'stable'
           cache-dependency-path: go.sum
+      - name: unit test
+        run: go test ./...
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu
@@ -89,10 +91,10 @@ jobs:
         with:
           go-version: 'stable'
           cache-dependency-path: go.sum
+      - name: unit test
+        run: go test ./...
       - name: install nsis
         run: choco install nsis
-      - name: download dependencies
-        run: go get ./...
       - name: build
         run: go tool wails3 task windows:package
       - name: Archive artifacts

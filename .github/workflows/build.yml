@@ -43,8 +43,14 @@ jobs:
       - uses: awalsh128/cache-apt-pkgs-action@latest
         name: apt install
         with:
-          packages: libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu ffmpeg libblas-dev
+          packages: libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu
           version: 0.1
+      - name: ffmpeg
+        run: |
+            mkdir ~/bin && cd ~/bin
+            wget https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz
+            tar xvf ffmpeg-git-amd64-static.tar.xz --no-anchored 'ffmpeg' --strip 1
+            source ~/.profile
       - name: generate
         run: |
             ffmpeg -codecs -hide_banner -loglevel error

@@ -122,7 +122,7 @@ func Formats() []string {
 		}
 
 		fields := strings.Fields(txt)
-		if len(fields) > 0 {
+		if len(fields) >= 2 {
 			format := fields[1]
 			out = append(formats, format)
 		}

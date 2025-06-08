@@ -50,7 +50,7 @@ jobs:
           version: 1.0
       - name: generate
         run: |
-            go tool wails3 task build:frontend
+            go tool wails3 task common:build:frontend
       - name: unit test
         run: go test ./...
       - name: build
@@ -99,7 +99,7 @@ jobs:
         run: choco install ffmpeg
       - name: generate
         run: |
-            go tool wails3 task build:frontend
+            go tool wails3 task common:build:frontend
       - name: unit test
         run: go test ./...
       - name: install nsis

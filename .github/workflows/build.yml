@@ -112,3 +112,50 @@ jobs:
         with:
           name: ${{ matrix.build.package }}
           path: bin/**
+  darwin:
+    strategy:
+      fail-fast: false
+      matrix:
+        build:
+          - name: 'darwin/amd64'
+            package: "darwin-amd64"
+            os: 'macos-13'
+    runs-on: ${{ matrix.build.os }}
+    name: ${{ matrix.build.name }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/cache@v4
+        name: Node Modules Cache
+        id: npm-cache
+        with:
+          path: |
+            **/node_modules
+            **/.eslintcache
+            ${{ steps.npm-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+          cache-dependency-path: go.sum
+      - name: ffmpeg
+        run: |
+          brew install ffmpeg
+      - name: generate
+        run: |
+            go tool wails3 task common:build:frontend
+      - name: unit test
+        run: go test ./...
+      - name: build
+        run: go tool wails3 task darwin:package
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.build.package }}
+          path: bin/**

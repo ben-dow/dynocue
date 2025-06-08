@@ -46,7 +46,7 @@ jobs:
       - uses: FedericoCarboni/setup-ffmpeg@v3
         id: setup-ffmpeg
         with:
-          ffmpeg-version: release
+          ffmpeg-version: 6.1.1
           architecture: ''
           linking-type: static
           github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
@@ -102,7 +102,7 @@ jobs:
       - uses: FedericoCarboni/setup-ffmpeg@v3
         id: setup-ffmpeg
         with:
-          ffmpeg-version: release
+          ffmpeg-version: 6.1.1
           architecture: ''
           linking-type: static
           github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}

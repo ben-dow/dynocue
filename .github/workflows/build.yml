@@ -39,7 +39,7 @@ jobs:
       matrix:
         build:
           - name: 'windows/amd64'
-            os: 'windows-2022'
+            os: 'windows-latest'
           - name: 'windows/arm'
             os: 'windows-11-arm'
     runs-on: ${{ matrix.build.os }}
@@ -53,6 +53,8 @@ jobs:
         with:
           go-version: 'stable'
           cache-dependency-path: go.sum
+      - name: install nsis
+        run: choco install nsis
       - name: download dependencies
         run: go get ./...
       - name: build

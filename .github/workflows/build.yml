@@ -43,6 +43,8 @@ jobs:
         with:
           go-version: 'stable'
           cache-dependency-path: go.sum
+      - name: ffmpeg install
+        run: sudo apt install ffmpeg
       - name: unit test
         run: go test ./...
       - uses: awalsh128/cache-apt-pkgs-action@latest
@@ -91,6 +93,8 @@ jobs:
         with:
           go-version: 'stable'
           cache-dependency-path: go.sum
+      - name: ffmpeg
+        run: choco install ffmpeg
       - name: unit test
         run: go test ./...
       - name: install nsis

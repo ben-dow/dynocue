@@ -39,7 +39,7 @@ jobs:
       matrix:
         build:
           - name: 'windows/amd64'
-            os: 'windows-2025'
+            os: 'windows-2022'
           - name: 'windows/arm'
             os: 'windows-11-arm'
     runs-on: ${{ matrix.build.os }}

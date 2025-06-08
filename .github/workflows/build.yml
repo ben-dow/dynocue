@@ -47,6 +47,7 @@ jobs:
           version: 0.1
       - name: generate
         run: |
+            ffmpeg
             go tool wails3 task common:build:frontend
       - name: unit test
         run: go test ./...
@@ -90,7 +91,9 @@ jobs:
           go-version: 'stable'
           cache-dependency-path: go.sum
       - name: ffmpeg
-        run: choco install ffmpeg
+        run: |
+          choco install ffmpeg
+          ffmpeg
       - name: generate
         run: |
             go tool wails3 task common:build:frontend

@@ -26,6 +26,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - uses: actions/cache@v2
+        id: npm-cache
+        with:
+          path: |
+            **/node_modules
+            **/.eslintcache
+            ${{ steps.npm-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - uses: actions/setup-go@v5
         with:
           go-version: 'stable'
@@ -62,6 +72,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - uses: actions/cache@v2
+        id: npm-cache
+        with:
+          path: |
+            **/node_modules
+            **/.eslintcache
+            ${{ steps.npm-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - uses: actions/setup-go@v5
         with:
           go-version: 'stable'

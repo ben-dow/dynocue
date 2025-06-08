@@ -48,7 +48,7 @@ jobs:
           packages: libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu
           version: 1.0
       - name: build
-        run: go tool wails3 task linux:package
+        run: go tool wails3 task linux:build
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
         with:

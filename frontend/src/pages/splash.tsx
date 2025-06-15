@@ -1,7 +1,7 @@
 import { Button, Card, Center, Divider, Stack, Title } from "@mantine/core";
 import { Dialogs } from "@wailsio/runtime";
 import { useNavigate } from "react-router";
-import {OpenShow, NewShow, CreateNewAsHost, OpenAsHost} from "../../bindings/dynocue/cmd/dynocue/dynocueservice";
+import {CreateNewAsHost, OpenAsHost} from "../../bindings/dynocue/cmd/dynocue/dynocueservice";
 
 
 export default function Splash() {

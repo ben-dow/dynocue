@@ -1,4 +1,4 @@
-package localapp
+package dynocue
 
 import (
 	"dynocue/internal/db"
@@ -79,14 +79,14 @@ func (l *LocalDynoCue) AddAudioSource(inputPath, storageCodec, label string) err
 	return l.notifySources()
 }
 
-func (l *LocalDynoCue) PlayAudioSource(id string) error {
+func (l *LocalDynoCue) PlayAudioSource(sourceId, playbackId string) error {
 	as := new(model.AudioSource)
-	err := db.UnmarshalKeyValueFromBucket(l.db, AudioSourcesBucket, id, as)
+	err := db.UnmarshalKeyValueFromBucket(l.db, AudioSourcesBucket, sourceId, as)
 	if err != nil {
 		return err
 	}
 
-	err = l.players.StartAudioPlayer(id, &playback.PlayerCfg{
+	err = l.players.StartAudioPlayer(playbackId, &playback.PlayerCfg{
 		File: as.StoragePath,
 	})
 

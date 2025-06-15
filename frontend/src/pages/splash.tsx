@@ -1,7 +1,7 @@
 import { Button, Card, Center, Divider, Stack, Title } from "@mantine/core";
 import { Dialogs } from "@wailsio/runtime";
 import { useNavigate } from "react-router";
-import { NewLocal, OpenLocal } from "../../bindings/dynocue/cmd/dynocue/dynocueservice";
+import {OpenShow, NewShow, CreateNewAsHost, OpenAsHost} from "../../bindings/dynocue/cmd/dynocue/dynocueservice";
 
 
 export default function Splash() {
@@ -18,8 +18,11 @@ export default function Splash() {
                         <Title order={1}>DynoCue</Title>
                         <Divider />
                         <Stack gap={"sm"}>
-                            <Button onClick={() => { NewShow(goToWorkspace) }} size="lg" radius="md">New</Button>
-                            <Button onClick={() => { OpenShow(goToWorkspace) }} size="lg" radius="md">Open</Button>
+                            <Button onClick={() => { CreateNewShow(goToWorkspace) }} size="lg" radius="md">New</Button>
+                            <Button onClick={() => { OpenExistingShow(goToWorkspace) }} size="lg" radius="md">Open</Button>
+                            <Button onClick={() => {  }} size="lg" radius="md">Connect</Button>
+                            <Divider/>
+                            <Button onClick={() => { navigate("/application_settings") }} size="lg" radius="md">Settings</Button>
                         </Stack>
                     </Stack>
                 </Card>
@@ -28,7 +31,7 @@ export default function Splash() {
     )
 }
 
-function NewShow(goToWorkspace: () => void) {
+function CreateNewShow(goToWorkspace: () => void) {
     Dialogs.SaveFile({
         CanCreateDirectories: true,
         CanChooseDirectories: true,
@@ -38,11 +41,11 @@ function NewShow(goToWorkspace: () => void) {
         if (path === "") {
             return
         }
-        NewLocal(path).then(() => { goToWorkspace() })
+        CreateNewAsHost(path).then(() => { goToWorkspace() })
     })
 }
 
-function OpenShow(goToWorkspace: () => void) {
+function OpenExistingShow(goToWorkspace: () => void) {
     Dialogs.OpenFile({
         CanChooseDirectories: true,
         Title: "Open Dyno Cue Project",
@@ -51,6 +54,6 @@ function OpenShow(goToWorkspace: () => void) {
         if (path === "") {
             return
         }
-        OpenLocal(path).then(() => { goToWorkspace() })
+        OpenAsHost(path).then(() => { goToWorkspace() })
     })
 }

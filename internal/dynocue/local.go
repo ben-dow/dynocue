@@ -1,7 +1,6 @@
-package localapp
+package dynocue
 
 import (
-	"dynocue/internal/appdef"
 	"dynocue/pkg/model"
 	"dynocue/pkg/playback"
 	"os"
@@ -18,7 +17,6 @@ type LocalDynoCue struct {
 	players *playback.PlayerManager
 
 	evCb func(string, interface{})
-	appdef.NoopDynoCueApplication
 }
 
 func NewLocalDynoCue(savePath string, eventCallback func(string, interface{})) (*LocalDynoCue, error) {

@@ -45,7 +45,8 @@ type Player struct {
 }
 
 type PlayerCfg struct {
-	File string
+	File      string
+	AudioOnly bool
 }
 
 func NewAudioPlayer(cfg *PlayerCfg) (*Player, error) {
@@ -93,21 +94,21 @@ type PlayerStatus struct {
 	Time          int            `json:"time"`
 	Rate          int            `json:"rate"`
 	Fullscreen    int            `json:"fullscreen"`
-	Audiofilters  map[string]any `json:"audiofilters"`
+	AudioFilters  map[string]any `json:"audiofilters"`
 	Length        int            `json:"length"`
-	Currentplid   int            `json:"currentplid"`
+	CurrentPlId   int            `json:"currentplid"`
 	Position      int            `json:"position"`
 	Equalizer     []any          `json:"equalizer"`
 	Random        bool           `json:"random"`
-	Apiversion    int            `json:"apiversion"`
+	ApiVersion    int            `json:"apiversion"`
 	Version       string         `json:"version"`
 	Repeat        bool           `json:"repeat"`
 	Loop          bool           `json:"loop"`
 	State         string         `json:"state"`
-	Videoeffects  map[string]any `json:"videoeffects"`
+	VideoEffects  map[string]any `json:"videoeffects"`
 	Volume        int            `json:"volume"`
-	Audiodelay    int            `json:"audiodelay"`
-	Subtitledelay int            `json:"subtitledelay"`
+	AudioDelay    int            `json:"audiodelay"`
+	SubtitleDelay int            `json:"subtitledelay"`
 	SeekSeconds   int            `json:"seek_sec"`
 }
 

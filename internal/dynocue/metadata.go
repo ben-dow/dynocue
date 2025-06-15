@@ -1,4 +1,4 @@
-package localapp
+package dynocue
 
 import (
 	"dynocue/internal/db"

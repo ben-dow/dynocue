@@ -1,7 +1,7 @@
 import { Events, Window } from "@wailsio/runtime";
 import { createContext, ReactNode, useContext, useEffect, useReducer } from 'react';
 import { GetShowMetadata, GetSources } from "../../bindings/dynocue/cmd/dynocue/dynocueservice";
-import { ShowMetadata, Sources } from "../../bindings/dynocue/pkg/model/models";
+import { ShowMetadata, Sources } from "../../bindings/dynocue/pkg/model"
 
 
 export interface Show {

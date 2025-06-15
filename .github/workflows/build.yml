@@ -16,11 +16,9 @@ jobs:
           - name: 'linux/amd64'
             package: "linux-amd64"
             os: 'ubuntu-24.04'
-            ffmpeg-platform: amd64
           - name: 'linux/arm64'
             package: "linux-arm64"
             os: 'ubuntu-24.04-arm'
-            ffmpeg-platform: arm64
     runs-on: ${{ matrix.build.os }}
     name: ${{ matrix.build.name }}
     steps:
@@ -52,8 +50,8 @@ jobs:
           version: 0.1
       - uses: FedericoCarboni/setup-ffmpeg@v3
         id: setup-ffmpeg
+        name: ffmpeg
         with:
-          name: ffmpeg
           ffmpeg-version: release
           architecture: ''
           github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
@@ -104,10 +102,10 @@ jobs:
           cache-dependency-path: go.sum
       - uses: FedericoCarboni/setup-ffmpeg@v3
         id: setup-ffmpeg
+        name: ffmpeg
         with:
           ffmpeg-version: release
           architecture: ''
-          name: ffmpeg
           github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
       - name: generate
         run: |

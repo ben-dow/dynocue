@@ -1,10 +1,7 @@
-import {useNavigate} from "react-router";
 import {
     ActionIcon,
     Box,
-    Button,
     Card,
-    Center,
     Checkbox,
     Divider,
     Flex,
@@ -13,80 +10,81 @@ import {
     TextInput,
     Title
 } from "@mantine/core";
-import { IconArrowLeft, IconDeviceFloppy, IconRestore, IconX} from "@tabler/icons-react";
+import { IconArrowLeft, IconDeviceFloppy, IconRestore, IconX } from "@tabler/icons-react";
+import { useNavigate } from "react-router";
 
 export default function ApplicationSettings() {
     const navigate = useNavigate()
     return (
         <Box className="h-screen bg-zinc-200">
-                <Stack justify="center" align="center">
-                    <Card shadow="lg" padding="xl" radius={"md"} className={"w-2xl"} withBorder>
+            <Stack justify="center" align="center">
+                <Card shadow="lg" padding="xl" radius={"md"} className={"w-2xl"} withBorder>
                     <Flex direction={"column"} gap={4}>
                         <Flex direction={"row"} >
-                            <ActionIcon color={"black"}>
-                                <IconArrowLeft onClick={()=>{navigate(-1)}}/>
+                            <ActionIcon color={"black"} className="relative top-2">
+                                <IconArrowLeft onClick={() => { navigate(-1) }} />
                             </ActionIcon>
                             <Title className={"flex-1/3 text-center"}>Dependencies</Title>
-                            <Flex direction={"row"} gap={4} className={"relative top-3"}>
+                            <Flex direction={"row"} gap={4} className={"relative top-2"}>
                                 <ActionIcon color={"green"}>
-                                    <IconDeviceFloppy/>
+                                    <IconDeviceFloppy />
                                 </ActionIcon>
                                 <ActionIcon color={"red"}>
-                                    <IconX/>
+                                    <IconX />
                                 </ActionIcon>
                                 <ActionIcon color={"blue"}>
-                                    <IconRestore/>
+                                    <IconRestore />
                                 </ActionIcon>
                             </Flex>
                         </Flex>
-                        <Divider/>
+                        <Divider />
                         <Box className={"h-full overflow-auto"}>
                             <Flex direction={"column"} gap={10}>
-                                <Title className={"w-full"}  order={4}>Application Dependencies</Title>
-                                <TextInput label={"VLC"}  inputContainer={(children)=>
+                                <Title className={"w-full"} order={4}>Application Dependencies</Title>
+                                <TextInput label={"VLC"} inputContainer={(children) =>
                                     <Group>
                                         <Box className={"w-4/5"}>
                                             {children}
                                         </Box>
-                                        <Checkbox className={"w-1/6"} label={"Use PATH"}/>
+                                        <Checkbox className={"w-1/6"} label={"Use PATH"} />
                                     </Group>
                                 }
                                 />
-                                <TextInput label={"FFMPEG"}  inputContainer={(children)=>
+                                <TextInput label={"FFMPEG"} inputContainer={(children) =>
                                     <Group>
                                         <Box className={"w-4/5"}>
                                             {children}
                                         </Box>
-                                        <Checkbox className={"w-1/6"} label={"Use PATH"}/>
-                                    </Group>
-                                }
-                                />
-
-                                <TextInput label={"FFPLAY"}  inputContainer={(children)=>
-                                    <Group>
-                                        <Box className={"w-4/5"}>
-                                            {children}
-                                        </Box>
-                                        <Checkbox className={"w-1/6"} label={"Use PATH"}/>
+                                        <Checkbox className={"w-1/6"} label={"Use PATH"} />
                                     </Group>
                                 }
                                 />
 
-                                <TextInput label={"FFPROBE"}  inputContainer={(children)=>
+                                <TextInput label={"FFPLAY"} inputContainer={(children) =>
                                     <Group>
                                         <Box className={"w-4/5"}>
                                             {children}
                                         </Box>
-                                        <Checkbox className={"w-1/6"} label={"Use PATH"}/>
+                                        <Checkbox className={"w-1/6"} label={"Use PATH"} />
                                     </Group>
                                 }
                                 />
 
-                                </Flex>
-                            </Box>
-                        </Flex>
-                    </Card>
-                </Stack>
+                                <TextInput label={"FFPROBE"} inputContainer={(children) =>
+                                    <Group>
+                                        <Box className={"w-4/5"}>
+                                            {children}
+                                        </Box>
+                                        <Checkbox className={"w-1/6"} label={"Use PATH"} />
+                                    </Group>
+                                }
+                                />
+
+                            </Flex>
+                        </Box>
+                    </Flex>
+                </Card>
+            </Stack>
         </Box>
     )
 }

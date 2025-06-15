@@ -78,9 +78,6 @@ jobs:
           - name: 'windows/amd64'
             package: "windows-amd64"
             os: 'windows-latest'
-          - name: 'windows/arm64'
-            package: "windows-arm64"
-            os: 'windows-11-arm'
     runs-on: ${{ matrix.build.os }}
     name: ${{ matrix.build.name }}
     steps:

@@ -50,12 +50,13 @@ jobs:
         with:
           packages: libgtk-3-0 libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu
           version: 0.1
-      - name: ffmpeg
-        run: |
-            cd /bin
-            sudo curl --output ffmpeg-git-${{ matrix.build.ffmpeg-platform }}-static.tar.xz https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-${{ matrix.build.ffmpeg-platform }}-static.tar.xz
-            sudo tar xvf ffmpeg-git-${{ matrix.build.ffmpeg-platform }}-static.tar.xz --no-anchored 'ffmpeg' --strip 1
-            source ~/.profile
+      - uses: FedericoCarboni/setup-ffmpeg@v3
+        id: setup-ffmpeg
+        with:
+          ffmpeg-version: release
+          architecture: ''
+          linking-type: static
+          github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
       - name: generate
         run: |
             go tool wails3 task common:build:frontend
@@ -104,9 +105,13 @@ jobs:
         with:
           go-version: 'stable'
           cache-dependency-path: go.sum
-      - name: ffmpeg
-        run: |
-          choco install ffmpeg
+      - uses: FedericoCarboni/setup-ffmpeg@v3
+        id: setup-ffmpeg
+        with:
+          ffmpeg-version: release
+          architecture: ''
+          linking-type: static
+          github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
       - name: generate
         run: |
             go tool wails3 task common:build:frontend
@@ -157,9 +162,13 @@ jobs:
         with:
           go-version: 'stable'
           cache-dependency-path: go.sum
-      - name: ffmpeg
-        run: |
-          brew install ffmpeg
+      - uses: FedericoCarboni/setup-ffmpeg@v3
+        id: setup-ffmpeg
+        with:
+          ffmpeg-version: release
+          architecture: ''
+          linking-type: static
+          github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
       - name: generate
         run: |
             go tool wails3 task common:build:frontend

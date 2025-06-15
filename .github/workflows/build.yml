@@ -55,7 +55,6 @@ jobs:
         with:
           ffmpeg-version: release
           architecture: ''
-          linking-type: static
           github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
       - name: generate
         run: |
@@ -107,7 +106,6 @@ jobs:
         with:
           ffmpeg-version: release
           architecture: ''
-          linking-type: static
           github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
       - name: generate
         run: |
@@ -163,8 +161,7 @@ jobs:
         id: setup-ffmpeg
         with:
           ffmpeg-version: release
-          architecture: ''
-          linking-type: static
+          architecture: 'x64'
           github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
       - name: generate
         run: |

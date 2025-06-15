@@ -53,6 +53,7 @@ jobs:
       - uses: FedericoCarboni/setup-ffmpeg@v3
         id: setup-ffmpeg
         with:
+          name: ffmpeg
           ffmpeg-version: release
           architecture: ''
           github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
@@ -106,6 +107,7 @@ jobs:
         with:
           ffmpeg-version: release
           architecture: ''
+          name: ffmpeg
           github-token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
       - name: generate
         run: |
@@ -159,6 +161,7 @@ jobs:
           cache-dependency-path: go.sum
       - uses: FedericoCarboni/setup-ffmpeg@v3
         id: setup-ffmpeg
+        name: ffmpeg
         with:
           ffmpeg-version: release
           architecture: 'x64'
